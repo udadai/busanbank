@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎁 리워드 · 스탬프 | BNK Busan Connect</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'bnk-red': '#C8132F',
+            'bnk-deep': '#8A0E22',
+            'bnk-ink': '#0E1116',
+            'bnk-gray': '#eef0f4',
+            'busan-blue': '#0B6BB8',
+            'busan-orange': '#F76B15',
+            'accent-green': '#17A34A'
+          },
+          boxShadow: {
+            brand: '0 10px 25px -5px rgba(200,19,47,0.25), 0 8px 10px -6px rgba(200,19,47,0.3)'
+          },
+          borderRadius: {
+            brand: '1.25rem'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body{ font-family:'Noto Sans KR','Inter',system-ui,-apple-system,'Apple SD Gothic Neo',sans-serif; background:#f6f7fb; }
+    .modal{ display:none; }
+  </style>
+</head>
+<body class="min-h-screen text-bnk-ink/90">
+  <div class="bg-gradient-to-r from-bnk-red to-bnk-deep text-white text-xs sm:text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/15 backdrop-blur-sm">🏦</span>
+        <span class="font-semibold">BNK 부산은행 제공 · Busan Connect 베타</span>
+      </div>
+      <span class="hidden md:inline opacity-85">개인정보는 암호화되어 전송됩니다. 카드 연동 시 본인인증이 필요합니다.</span>
+    </div>
+  </div>
+  
+  <!-- Header -->
+  <header class="bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 shadow-sm sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="h-16 flex items-center justify-between">
+        <a href="homepage.html" class="group flex items-center gap-3" aria-label="홈으로 이동">
+          <div class="h-9 w-9 rounded-2xl bg-gradient-to-br from-bnk-red to-bnk-deep text-white grid place-items-center shadow-brand">BNK</div>
+          <div class="leading-tight">
+            <div class="text-lg sm:text-xl font-extrabold tracking-tight text-bnk-ink group-hover:text-bnk-red transition">Busan Connect</div>
+            <div class="text-[10px] sm:text-[11px] text-bnk-ink/60 -mt-0.5">Global Traveler · Student Hub</div>
+          </div>
+        </a>
+        <nav class="hidden md:flex items-center gap-2">
+          <a href="homepage.html" class="px-3 py-2 rounded-xl text-sm font-medium hover:bg-bnk-gray">홈</a>
+          <a href="gourmet.html" class="px-3 py-2 rounded-xl text-sm font-medium hover:bg-bnk-gray">고메부산</a>
+          <span class="px-3 py-2 rounded-xl text-sm font-semibold text-bnk-red bg-bnk-red/10">리워드/스탬프</span>
+        </nav>
+        <a href="homepage.html" class="md:hidden text-sm text-bnk-red">← 홈</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Title / actions -->
+  <section class="bg-gradient-to-r from-white to-bnk-gray/60 border-y border-white/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl md:text-3xl font-extrabold text-bnk-ink">🎁 나의 동백전 리워드</h1>
+          <p class="text-sm text-neutral-600 mt-1">BNK 제휴처 방문 시 자동 적립 · 스탬프 10개당 1,000원 쿠폰</p>
+        </div>
+        <div class="flex gap-3">
+          <button class="px-4 py-2 rounded-xl border border-neutral-200 bg-white text-sm hover:bg-neutral-50" onclick="openHowTo()">스탬프 적립 방법</button>
+          <button class="px-4 py-2 rounded-xl bg-bnk-red text-white text-sm font-semibold shadow-brand hover:bg-bnk-deep" onclick="openLinkage()">💳 카드 연동</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Summary cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="bg-white rounded-brand p-6 border border-neutral-200">
+        <p class="text-sm text-neutral-600">현재 스탬프</p>
+        <p id="stampNow" class="text-4xl font-extrabold text-bnk-red mt-2">-</p>
+      </div>
+      <div class="bg-white rounded-brand p-6 border border-neutral-200">
+        <p class="text-sm text-neutral-600">다음 목표</p>
+        <p class="text-4xl font-extrabold text-bnk-ink mt-2">10 <span class="text-base text-neutral-500">개</span></p>
+      </div>
+      <div class="bg-white rounded-brand p-6 border border-neutral-200">
+        <p class="text-sm text-neutral-600">누적 리워드 금액</p>
+        <p id="rewardTotal" class="text-4xl font-extrabold text-accent-green mt-2">-</p>
+      </div>
+    </div>
+
+    <!-- Coupon redemption -->
+    <section class="bg-white rounded-brand p-6 border border-neutral-200">
+      <h2 class="text-xl font-bold mb-4">쿠폰 교환</h2>
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-5 rounded-xl border" id="redeemBox">
+        <div>
+          <p class="text-lg font-semibold" id="redeemTitle">스탬프 10개당 1,000원 쿠폰</p>
+          <p class="text-sm text-neutral-600">고메부산 제휴처 방문 시 자동 적립됩니다.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="redeemBtn" class="px-4 py-2 rounded-xl font-bold">쿠폰 교환하기</button>
+          <span id="remainInfo" class="text-sm text-neutral-600"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- History / eligible list -->
+    <section class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div class="bg-white rounded-brand p-6 border border-neutral-200">
+        <h3 class="text-lg font-bold mb-4">최근 적립 내역</h3>
+        <ul id="historyList" class="space-y-3 text-sm"></ul>
+      </div>
+
+      <div class="bg-white rounded-brand p-6 border border-neutral-200">
+        <h3 class="text-lg font-bold mb-4">내 주변 제휴처</h3>
+        <ul class="space-y-3 text-sm">
+          <li class="flex items-center justify-between border-b pb-2"><span>해운대 The Bay 101</span><span class="text-bnk-red font-bold">스탬프 가능</span></li>
+          <li class="flex items-center justify-between border-b pb-2"><span>광안리 밀면 전문점</span><span class="text-neutral-500">일반 제휴</span></li>
+          <li class="flex items-center justify-between border-b pb-2"><span>남포동 감성 카페 199</span><span class="text-bnk-red font-bold">스탬프 가능</span></li>
+          <li class="flex items-center justify-between border-b pb-2"><span>서면 모던라멘</span><span class="text-bnk-red font-bold">스탬프 가능</span></li>
+        </ul>
+        <a href="gourmet.html" class="inline-block mt-4 text-bnk-red font-semibold hover:underline">고메부산 전체보기 →</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#0d1117] text-neutral-200 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-3">
+            <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-bnk-red to-bnk-deep text-white grid place-items-center">BNK</div>
+            <span class="text-lg font-extrabold">Busan Connect</span>
+          </div>
+          <p class="text-sm text-neutral-400 mt-2">Connecting Global Travelers & Students in Busan</p>
+        </div>
+        <div class="flex items-center gap-6 text-sm">
+          <a href="#" class="hover:text-white">개인정보처리방침</a>
+          <a href="#" class="hover:text-white">이용약관</a>
+          <a href="homepage.html" class="hover:text-white">홈으로</a>
+        </div>
+      </div>
+      <div class="mt-6 border-top border-white/10 pt-4 text-xs text-neutral-400">© 2025 BNK BUSAN BANK · Busan Connect (Beta)</div>
+    </div>
+  </footer>
+
+  
+  <!-- Modals -->
+  <div id="login-modal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl">
+      <h3 class="text-2xl font-extrabold text-bnk-red">로그인</h3>
+      <p class="text-neutral-600 mt-1 mb-5">커뮤니티 활동을 위해 계정을 만들어주세요.</p>
+      <label class="block text-sm font-medium mb-1">이메일</label>
+      <input type="email" class="w-full mb-3 p-3 rounded-xl border border-neutral-300 focus:ring-2 focus:ring-bnk-red/30 focus:border-bnk-red outline-none" placeholder="your@email.com"/>
+      <label class="block text-sm font-medium mb-1">비밀번호</label>
+      <input type="password" class="w-full mb-5 p-3 rounded-xl border border-neutral-300 focus:ring-2 focus:ring-bnk-red/30 focus:border-bnk-red outline-none" placeholder="••••••••"/>
+      <button class="w-full py-3 rounded-xl bg-bnk-red text-white font-bold shadow-brand hover:bg-bnk-deep transition" onclick="mockLogin()">로그인 / 가입하기</button>
+      <button class="w-full mt-3 text-sm text-neutral-600 hover:text-bnk-red" onclick="closeModal('login-modal')">나중에 할게요 (게스트)</button>
+    </div>
+  </div>
+
+  <div id="card-linkage-modal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl">
+      <h3 class="text-2xl font-extrabold text-bnk-red flex items-center"><span class="mr-2">💳</span>동백전 카드 연동</h3>
+      <p class="text-neutral-700 mt-2">모임 정산·리워드 적립은 <b>동백전 부산페이 선불카드</b> 연동 사용자에게 제공됩니다.</p>
+      <ul class="list-disc list-inside text-sm text-neutral-600 mt-3 mb-5 space-y-1">
+        <li>혜택: 스탬프 리워드 쿠폰, 모임 비용 자동 정산</li>
+        <li>발급 장소: 김해공항 / 해운대 / 광안리 키오스크</li>
+      </ul>
+      <label class="block text-sm font-medium mb-1">카드 번호 (16자리)</label>
+      <input type="text" class="w-full mb-3 p-3 rounded-xl border border-neutral-300 focus:ring-2 focus:ring-bnk-red/30 focus:border-bnk-red outline-none" placeholder="1234 5678 9012 3456"/>
+      <label class="block text-sm font-medium mb-1">유효기간 / CVC</label>
+      <input type="password" class="w-full mb-5 p-3 rounded-xl border border-neutral-300 focus:ring-2 focus:ring-bnk-red/30 focus:border-bnk-red outline-none" placeholder="MM/YY · CVC"/>
+      <button class="w-full py-3 rounded-xl bg-bnk-red text-white font-bold shadow-brand hover:bg-bnk-deep transition" onclick="mockLinkCard()">카드 연동 완료</button>
+      <div class="mt-4 flex items-center justify-between text-sm">
+        <button class="text-busan-blue hover:underline" onclick="showModal('kiosk-location-modal', true)">카드 발급 위치 보기</button>
+        <button class="text-neutral-600 hover:text-bnk-red" onclick="closeModal('card-linkage-modal')">취소</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="kiosk-location-modal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div class="bg-white rounded-2xl w-full max-w-lg p-6 shadow-2xl">
+      <h3 class="text-2xl font-extrabold text-busan-blue flex items-center"><span class="mr-2">🗺️</span>동백전 발급 키오스크 위치</h3>
+      <p class="text-neutral-700 mt-2">주요 관광지에 배치된 디지털 플레이스에서 즉시 발급 가능합니다.</p>
+      <div class="bg-neutral-100 h-48 rounded-xl grid place-items-center text-neutral-500 text-sm my-4">[지도 API 연동 영역: 현재 위치 기반 키오스크 표시]</div>
+      <ul class="list-disc list-inside text-sm text-neutral-700 space-y-1 mb-6">
+        <li><b>김해 국제공항</b>: 1층 도착 로비</li>
+        <li><b>해운대 해수욕장</b>: 관광안내소 앞 (신규)</li>
+        <li><b>광안리 해수욕장</b>: 민락수변공원 입구 (신규)</li>
+      </ul>
+      <button class="w-full py-3 rounded-xl bg-busan-blue text-white font-bold hover:brightness-110" onclick="closeModal('kiosk-location-modal')">확인</button>
+    </div>
+  </div>
+
+  <!-- Logic -->
+  <script>
+    // 상태 및 공통 유틸
+    let isLoggedIn = false;
+    let isCardLinked = false;
+    let stampCount = 7;
+    let rewardTotal = 5000;
+
+    function qs(id){ return document.getElementById(id); }
+    function showModal(id){ const el = qs(id); if (el) el.style.display = 'flex'; }
+    function closeModal(id){ const el = qs(id); if (el) el.style.display = 'none'; }
+
+    // 버튼 핸들러
+    function openHowTo(){
+      alert('스탬프 적립 방법:\n1) 고메부산 제휴처 결제 시 자동 적립\n2) 위치 권한 허용 시 방문 인증 보조\n3) 제휴처 이벤트 참여 시 추가 적립');
+    }
+    function openLinkage(){ showModal('card-linkage-modal'); }
+    function mockLogin(){ isLoggedIn = true; closeModal('login-modal'); alert('로그인 성공! (Mock)'); }
+    function mockLinkCard(){ isCardLinked = true; closeModal('card-linkage-modal'); alert('동백전 카드 연동 완료! (Mock)'); }
+
+    function render() {
+      // 상단 요약
+      qs('stampNow').innerHTML = `${stampCount} <span class='text-base text-neutral-500'>개</span>`;
+      qs('rewardTotal').innerHTML = `${rewardTotal.toLocaleString()} <span class='text-base text-neutral-500'>원</span>`;
+
+      // 교환 가능 여부
+      const canRedeem = stampCount >= 10;
+      const redeemBox = qs('redeemBox');
+      redeemBox.className = `flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-5 rounded-xl border ${canRedeem ? 'border-bnk-red bg-bnk-red/5' : 'border-neutral-200 bg-neutral-50'}`;
+
+      const redeemBtn = qs('redeemBtn');
+      redeemBtn.className = `px-4 py-2 rounded-xl font-bold ${canRedeem ? 'bg-bnk-red text-white hover:bg-bnk-deep shadow-brand' : 'bg-neutral-200 text-neutral-500 cursor-not-allowed'}`;
+      redeemBtn.onclick = canRedeem ? redeem : null;
+
+      qs('remainInfo').textContent = canRedeem ? '교환 가능' : `남은 스탬프: ${10 - stampCount}개`;
+
+      // 최근 적립 내역 (목업)
+      const history = [
+        { place:'해운대 The Bay 101', delta:+1, time:'오늘 11:20' },
+        { place:'감천 문화마을', delta:+1, time:'어제 15:40' },
+        { place:'광안리 밀면 전문점', delta:+1, time:'3일 전 12:10' },
+        { place:'태종대 유원지', delta:+1, time:'지난주 토 10:05' },
+        { place:'남포동 감성 카페 199', delta:+1, time:'지난주 금 18:22' },
+      ];
+      qs('historyList').innerHTML = history.map(item => `
+        <li class="flex items-center justify-between border-b pb-2">
+          <div>
+            <p class="font-medium">${item.place}</p>
+            <p class="text-xs text-neutral-500">${item.time}</p>
+          </div>
+          <span class="text-bnk-red font-bold">+${item.delta}</span>
+        </li>`).join('');
+    }
+
+    function redeem(){
+      if (!isCardLinked){
+        showModal('card-linkage-modal');
+        return;
+      }
+      if (stampCount < 10) return;
+      stampCount -= 10;
+      rewardTotal += 1000;
+      alert('축하합니다! 1,000원 쿠폰이 발급되었습니다.');
+      render();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); // 자동 오픈 방지
+      render();
+    });
+  </script>
+</body>
+</html>

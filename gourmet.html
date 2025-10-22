@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🍽 고메부산 전체보기 | BNK Busan Connect</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'bnk-red': '#C8132F',
+            'bnk-deep': '#8A0E22',
+            'bnk-ink': '#0E1116',
+            'bnk-gray': '#eef0f4',
+            'busan-blue': '#0B6BB8',
+            'busan-orange': '#F76B15',
+            'accent-green': '#17A34A'
+          },
+          boxShadow: {
+            brand: '0 10px 25px -5px rgba(200,19,47,0.25), 0 8px 10px -6px rgba(200,19,47,0.3)'
+          },
+          borderRadius: {
+            brand: '1.25rem'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body{ font-family:'Noto Sans KR','Inter',system-ui,-apple-system,'Apple SD Gothic Neo',sans-serif; background:#f6f7fb; }
+  </style>
+</head>
+<body class="min-h-screen text-bnk-ink/90">
+  <div class="bg-gradient-to-r from-bnk-red to-bnk-deep text-white text-xs sm:text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/15 backdrop-blur-sm">🏦</span>
+        <span class="font-semibold">BNK 부산은행 제공 · Busan Connect 베타</span>
+      </div>
+      <span class="hidden md:inline opacity-85">개인정보는 암호화되어 전송됩니다. 카드 연동 시 본인인증이 필요합니다.</span>
+    </div>
+  </div>
+  <!-- Header -->
+  <header class="bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 shadow-sm sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="h-16 flex items-center justify-between">
+        <a href="homepage.html" class="group flex items-center gap-3" aria-label="홈으로 이동">
+          <div class="h-9 w-9 rounded-2xl bg-gradient-to-br from-bnk-red to-bnk-deep text-white grid place-items-center shadow-brand">BNK</div>
+          <div class="leading-tight">
+            <div class="text-lg sm:text-xl font-extrabold tracking-tight text-bnk-ink group-hover:text-bnk-red transition">Busan Connect</div>
+            <div class="text-[10px] sm:text-[11px] text-bnk-ink/60 -mt-0.5">Global Traveler · Student Hub</div>
+          </div>
+        </a>
+        <nav class="hidden md:flex items-center gap-2">
+          <a href="homepage.html" class="px-3 py-2 rounded-xl text-sm font-medium hover:bg-bnk-gray">홈</a>
+          <!-- <span class="px-3 py-2 rounded-xl text-sm font-semibold text-bnk-red bg-bnk-red/10">고메부산 전체보기</span> -->
+        </nav>
+        <a href="homepage.html" class="md:hidden text-sm text-bnk-red">← 홈</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page title / controls -->
+  <section class="bg-gradient-to-r from-white to-bnk-gray/60 border-y border-white/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl md:text-3xl font-extrabold text-bnk-ink">🍽 고메부산 제휴처 전체보기</h1>
+          <p class="text-sm text-neutral-600 mt-1">BNK 제휴 맛집 방문 시 동백전 스탬프가 자동 적립됩니다.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <div class="relative">
+            <input id="searchInput" placeholder="검색: 해운대, 밀면, 카페…" class="w-full sm:w-72 py-2.5 pl-10 pr-3 rounded-xl border border-neutral-200 bg-white shadow-sm focus:ring-2 focus:ring-bnk-red/30 focus:border-bnk-red outline-none" />
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <select id="sortSelect" class="py-2.5 px-3 rounded-xl border border-neutral-200 bg-white shadow-sm text-sm">
+            <option value="rating">평점순</option>
+            <option value="name">이름순</option>
+            <option value="stamp">스탬프 가능 우선</option>
+            <option value="area">지역순</option>
+          </select>
+          <select id="areaSelect" class="py-2.5 px-3 rounded-xl border border-neutral-200 bg-white shadow-sm text-sm">
+            <option value="all">전체 지역</option>
+            <option value="해운대">해운대</option>
+            <option value="광안리">광안리</option>
+            <option value="남포동">남포동</option>
+            <option value="서면">서면</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- List grid -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div id="listGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+
+    <!-- Pagination -->
+    <div class="flex items-center justify-between mt-8">
+      <div class="text-sm text-neutral-600"><span id="resultCount">0</span>개 결과</div>
+      <div class="flex items-center gap-2">
+        <button id="prevBtn" class="px-3 py-2 rounded-lg border border-neutral-200 bg-white hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed">이전</button>
+        <span id="pageInfo" class="text-sm text-neutral-700">1 / 1</span>
+        <button id="nextBtn" class="px-3 py-2 rounded-lg border border-neutral-200 bg-white hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed">다음</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#0d1117] text-neutral-200 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-3">
+            <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-bnk-red to-bnk-deep text-white grid place-items-center">BNK</div>
+            <span class="text-lg font-extrabold">Busan Connect</span>
+          </div>
+          <p class="text-sm text-neutral-400 mt-2">Connecting Global Travelers & Students in Busan</p>
+        </div>
+        <div class="flex items-center gap-6 text-sm">
+          <a href="#" class="hover:text-white">개인정보처리방침</a>
+          <a href="#" class="hover:text-white">이용약관</a>
+          <a href="homepage.html" class="hover:text-white">홈으로</a>
+        </div>
+      </div>
+      <div class="mt-6 border-top border-white/10 pt-4 text-xs text-neutral-400">© 2025 BNK BUSAN BANK · Busan Connect (Beta)</div>
+    </div>
+  </footer>
+
+  <!-- Data & Logic -->
+  <script>
+    // Mock dataset (실서비스에선 API 연동)
+    const DATA = [
+      { id:1, name:'The Bay 101 Fish & Chips', area:'해운대', tags:['해운대','핫플','양식'], rating:4.5, stamp:true },
+      { id:2, name:'밀면 전문점', area:'광안리', tags:['부산맛집','가성비','한식'], rating:4.2, stamp:false },
+      { id:3, name:'감성 카페 199', area:'남포동', tags:['카페','디저트'], rating:4.6, stamp:true },
+      { id:4, name:'씨사이드 바비큐', area:'해운대', tags:['바비큐','가족'], rating:4.1, stamp:false },
+      { id:5, name:'광안리 뷰라운지', area:'광안리', tags:['루프탑','야경'], rating:4.7, stamp:true },
+      { id:6, name:'서면 스테이크 하우스', area:'서면', tags:['양식','데이트'], rating:4.3, stamp:false },
+      { id:7, name:'남포동 전통시장 분식', area:'남포동', tags:['분식','길거리음식'], rating:4.0, stamp:false },
+      { id:8, name:'서면 모던라멘', area:'서면', tags:['일식','라멘'], rating:4.4, stamp:true },
+      { id:9, name:'광안리 샌드앤샐러드', area:'광안리', tags:['헬시','브런치'], rating:4.2, stamp:true },
+      { id:10, name:'해운대 오션파스타', area:'해운대', tags:['파스타','가성비'], rating:4.5, stamp:false },
+      { id:11, name:'남포 베이커리 랩', area:'남포동', tags:['빵','디저트'], rating:4.6, stamp:true },
+      { id:12, name:'서면 키친 코리안', area:'서면', tags:['한식','점심'], rating:4.1, stamp:false },
+      { id:13, name:'광안리 밀크티 하우스', area:'광안리', tags:['티','디저트'], rating:4.3, stamp:true },
+      { id:14, name:'해운대 시푸드 마켓', area:'해운대', tags:['해산물','시장'], rating:4.5, stamp:true },
+      { id:15, name:'서면 타파스바', area:'서면', tags:['스페인','타파스'], rating:4.0, stamp:false },
+      { id:16, name:'남포 카레라이스', area:'남포동', tags:['일식','카레'], rating:4.2, stamp:false },
+    ];
+
+    const PAGE_SIZE = 8;
+    let currentPage = 1;
+
+    const listGrid = document.getElementById('listGrid');
+    const resultCount = document.getElementById('resultCount');
+    const pageInfo = document.getElementById('pageInfo');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const areaSelect = document.getElementById('areaSelect');
+
+    function filterAndSort(){
+      const q = (searchInput.value || '').trim().toLowerCase();
+      const area = areaSelect.value;
+      const sort = sortSelect.value;
+
+      let rows = DATA.filter(d => {
+        const matchQ = q ? (d.name.toLowerCase().includes(q) || d.tags.join(',').toLowerCase().includes(q)) : true;
+        const matchA = area==='all' ? true : d.area===area;
+        return matchQ && matchA;
+      });
+
+      if(sort==='rating') rows.sort((a,b)=> b.rating - a.rating);
+      if(sort==='name') rows.sort((a,b)=> a.name.localeCompare(b.name));
+      if(sort==='stamp') rows.sort((a,b)=> (b.stamp===a.stamp? b.rating-a.rating : (b.stamp?1:-1)));
+      if(sort==='area') rows.sort((a,b)=> a.area.localeCompare(b.area) || b.rating-a.rating);
+      return rows;
+    }
+
+    function render(){
+      const rows = filterAndSort();
+      const total = rows.length;
+      const totalPage = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      currentPage = Math.min(currentPage, totalPage);
+      const start = (currentPage-1)*PAGE_SIZE;
+      const pageRows = rows.slice(start, start+PAGE_SIZE);
+
+      resultCount.textContent = total;
+      pageInfo.textContent = `${currentPage} / ${totalPage}`;
+      prevBtn.disabled = currentPage<=1;
+      nextBtn.disabled = currentPage>=totalPage;
+
+      listGrid.innerHTML = pageRows.map(item => cardHTML(item)).join('');
+    }
+
+    function cardHTML(item){
+      const badge = item.stamp ? `<span class="absolute right-3 top-3 text-[11px] bg-busan-orange text-white px-2 py-0.5 rounded-full font-bold shadow">스탬프 가능</span>` : '';
+      const tags = item.tags.map(t=>`<span class="px-2 py-0.5 rounded-full text-[11px] bg-neutral-100 border border-neutral-200">#${t}</span>`).join(' ');
+      return `
+        <article class="relative bg-white rounded-brand p-5 border border-neutral-200 hover:shadow-lg transition">
+          ${badge}
+          <h3 class="font-semibold text-bnk-ink mb-1 line-clamp-1">${item.name}</h3>
+          <p class="text-sm text-neutral-600 mb-3">${item.area} · 평점 ${item.rating.toFixed(1)}/5</p>
+          <div class="flex flex-wrap gap-2 mb-4">${tags}</div>
+          <div class="flex items-center justify-between">
+            <button class="text-sm font-bold text-bnk-red hover:underline" onclick="openDetail(${item.id})">자세히 보기 →</button>
+            ${item.stamp ? '<span class="text-xs text-accent-green font-semibold">적립 제휴</span>' : '<span class="text-xs text-neutral-400">일반 제휴</span>'}
+          </div>
+        </article>`;
+    }
+
+    function openDetail(id){
+      const item = DATA.find(d=>d.id===id);
+      if(!item) return;
+      const detail = `\n이름: ${item.name}\n지역: ${item.area}\n평점: ${item.rating}\n태그: ${item.tags.join(', ')}\n스탬프: ${item.stamp? '가능':'불가'}`;
+      alert(detail); // 추후 detail.html로 이동하도록 교체 가능
+    }
+
+    // Events
+    searchInput.addEventListener('input', ()=>{ currentPage=1; render(); });
+    sortSelect.addEventListener('change', ()=>{ currentPage=1; render(); });
+    areaSelect.addEventListener('change', ()=>{ currentPage=1; render(); });
+    prevBtn.addEventListener('click', ()=>{ currentPage=Math.max(1,currentPage-1); render(); });
+    nextBtn.addEventListener('click', ()=>{ currentPage=currentPage+1; render(); });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', render);
+  </script>
+</body>
+</html>
