@@ -99,7 +99,7 @@
         <a class="block px-3 py-2 rounded-xl text-sm hover:bg-bnk-gray" href="#">포럼</a>
         <a class="block px-3 py-2 rounded-xl text-sm hover:bg-bnk-gray" href="#">동행/모임</a>
         <a class="block px-3 py-2 rounded-xl text-sm hover:bg-bnk-gray" href="#">여행 팁</a>
-        <button class="w-full text-left px-3 py-2 rounded-xl text-sm font-semibold text-bnk-red hover:bg-bnk-red/10" onclick="handleRewardsClick()">🎁 리워드/스탬프</button>
+        <button class="w-full text-left px-3 py-2 rounded-xl text-sm font-semibold text-bnk-red hover:bg-bnk-red/10" onclick="window.location.href='rewards.html'">🎁 리워드/스탬프</button>
         <button class="w-full px-3 py-2 rounded-xl text-sm font-semibold bg-bnk-red text-white" onclick="handleAuthClick()">로그인</button>
       </div>
     </div>
@@ -236,8 +236,6 @@
       </aside>
     </div>
 
-    <!-- Rewards page (hidden) -->
-    <div id="reward-page" class="hidden"></div>
   </main>
 
   <!-- Modals -->
@@ -322,7 +320,6 @@
     const profileAvatar = document.getElementById('profile-avatar');
     const rewardsNavBtn = document.getElementById('rewards-nav-btn');
     const mainContentFeed = document.getElementById('main-content-feed');
-    const rewardPage = document.getElementById('reward-page');
     const mobileMenu = document.getElementById('mobile-menu');
 
     // 자동 모달 방지 플래그 (초기 로드 시 자동 오픈 금지)
@@ -338,8 +335,6 @@
         profileAvatar.classList.add('hidden');
         profileAvatar.classList.remove('flex');
       }
-      mainContentFeed.classList.remove('hidden');
-      rewardPage.classList.add('hidden');
     }
 
     function closeModal(id){ document.getElementById(id).style.display = 'none'; }
@@ -361,7 +356,7 @@
     }
 
     function mockLogin(){ isLoggedIn=true; closeModal('login-modal'); updateUIState(); alert('로그인 성공! (Mock)'); }
-    function mockLinkCard(){ isCardLinked=true; closeModal('card-linkage-modal'); alert('동백전 카드 연동 성공! (Mock)'); updateRewardsPage(); handleRewardsClick(); }
+    function mockLinkCard(){ isCardLinked=true; closeModal('card-linkage-modal'); alert('동백전 카드 연동 성공! (Mock)'); }
 
     function handlePremiumFeatureClick(){
       if(!isLoggedIn){ showModal('login-modal'); return; }
@@ -378,86 +373,11 @@
       showModal('kiosk-location-modal', !auto);
     }
 
-    function updateRewardsPage(){
-      const requiredStamps = 10;
-      const rewardAmount = 1000;
-      const canRedeem = stampCount >= requiredStamps;
-
-      let content = `
-      <section class="bg-white rounded-brand p-8 shadow-sm border border-neutral-100">
-        <h2 class="text-3xl font-extrabold text-bnk-red mb-6">🎁 나의 동백전 리워드</h2>`;
-
-      if(isCardLinked){
-        content += `
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-center">
-            <div class="bg-neutral-50 p-5 rounded-xl border border-neutral-200">
-              <p class="text-sm text-neutral-500">현재 스탬프</p>
-              <p class="text-4xl font-extrabold text-bnk-red mt-2">${stampCount}<span class="text-base text-neutral-500"> 개</span></p>
-            </div>
-            <div class="bg-neutral-50 p-5 rounded-xl border border-neutral-200">
-              <p class="text-sm text-neutral-500">다음 목표</p>
-              <p class="text-4xl font-extrabold text-bnk-ink mt-2">${requiredStamps}<span class="text-base text-neutral-500"> 개</span></p>
-            </div>
-            <div class="bg-neutral-50 p-5 rounded-xl border border-neutral-200">
-              <p class="text-sm text-neutral-500">누적 리워드 금액</p>
-              <p class="text-4xl font-extrabold text-accent-green mt-2">5,000<span class="text-base text-neutral-500"> 원</span></p>
-            </div>
-          </div>
-
-          <h3 class="text-xl font-bold mb-3">쿠폰 교환</h3>
-          <div class="p-5 rounded-xl border flex flex-col md:flex-row md:items-center md:justify-between gap-4 ${canRedeem? 'border-bnk-red bg-bnk-red/5':'border-neutral-200 bg-neutral-50'}">
-            <div>
-              <p class="text-lg font-semibold ${canRedeem? 'text-bnk-red':'text-bnk-ink'}">${requiredStamps} 스탬프 당 ${rewardAmount}원 쿠폰</p>
-              <p class="text-sm text-neutral-600">고메부산 제휴처 방문 시 자동 적립됩니다.</p>
-            </div>
-            <button ${canRedeem? 'onclick="redeemCoupon()"':''} class="px-4 py-2 rounded-xl font-bold ${canRedeem? 'bg-bnk-red text-white hover:bg-bnk-deep shadow-brand':'bg-neutral-200 text-neutral-500 cursor-not-allowed'}">
-              ${canRedeem? '쿠폰 교환하기' : `${requiredStamps - stampCount}개 남음`}
-            </button>
-          </div>
-
-          <h3 class="text-xl font-bold mt-8 mb-3">적립 내역</h3>
-          <ul class="space-y-3 text-sm">
-            <li class="flex justify-between items-center border-b pb-2"><span>✅ 해운대 더베이 101 방문</span><span class="text-bnk-red font-bold">+1</span></li>
-            <li class="flex justify-between items-center border-b pb-2"><span>✅ 흰여울 문화마을 방문</span><span class="text-bnk-red font-bold">+1</span></li>
-            <li class="flex justify-between items-center border-b pb-2"><span>✅ 광안리 밀면 전문점 방문</span><span class="text-bnk-red font-bold">+1</span></li>
-            <li class="flex justify-between items-center border-b pb-2"><span>✅ 태종대 유원지 방문</span><span class="text-bnk-red font-bold">+1</span></li>
-            <li class="flex justify-between items-center border-b pb-2"><span>✅ 감천 문화마을 방문</span><span class="text-bnk-red font-bold">+1</span></li>
-            <li class="flex justify-between items-center border-b pb-2 text-neutral-500"><span>⬜ 다음 목표: 국제시장 방문</span><span class="font-bold">+0</span></li>
-          </ul>`;
-      } else {
-        content += `
-          <div class="text-center p-10 bg-neutral-50 rounded-xl border-2 border-dashed border-bnk-red/40">
-            <p class="text-xl font-semibold text-bnk-red mb-3">동백전 카드를 연동하세요</p>
-            <p class="text-neutral-600 mb-6">스탬프 적립 및 쿠폰 혜택은 카드 등록 사용자에게 제공됩니다.</p>
-            <button class="px-6 py-3 rounded-xl bg-bnk-red text-white font-bold shadow-brand hover:bg-bnk-deep" onclick="showModal('card-linkage-modal', true)">카드 연동하고 혜택 시작</button>
-          </div>`;
-      }
-
-      content += '</section>';
-      rewardPage.innerHTML = content;
-    }
-
-    function redeemCoupon(){
-      if(stampCount >= 10){
-        stampCount -= 10;
-        alert(`축하합니다! 동백전 ${1000}원 쿠폰이 지급되었습니다. 잔여 스탬프: ${stampCount}개`);
-        updateRewardsPage();
-      } else { alert('스탬프가 부족합니다.'); }
-    }
-
-    function handleRewardsClick(){
-      mainContentFeed.classList.add('hidden');
-      rewardPage.classList.remove('hidden');
-      updateRewardsPage();
-      mobileMenu.classList.add('hidden');
-    }
 
     document.addEventListener('DOMContentLoaded', () => {
       hideAllModals(); // 초기 로딩 시 자동 모달 방지
       updateUIState();
-      rewardsNavBtn.addEventListener('click', handleRewardsClick);
       document.getElementById('mobile-menu-button').addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-      updateRewardsPage();
     });
   </script>
 </body>
